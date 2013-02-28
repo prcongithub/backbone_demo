@@ -1,0 +1,10 @@
+<div class="sidebar round">
+	<ul class="nav nav-list">
+	</ul>
+</div>
+<script type="text/javascript">
+	$('.dropdown-toggle').dropdown();
+	$(".sidebar-li").removeClass('active');
+	$(".<%= params[:controller] %>").addClass('active');
+	$(".<%= params[:controller] %>-<%= params[:defined_form_id] %>").addClass('active');
+</script>

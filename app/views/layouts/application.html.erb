@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Backbone Demo | <%= title %></title>
+	<%= stylesheet_link_tag "application", :media => "all" %>
+	<%= javascript_include_tag("application") %>
+	<%= csrf_meta_tags %>
+	<%= render :partial => "layouts/includes" %>
+	<%= render :partial => "layouts/templates" %>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="header-wrap">
+			<%= render :partial => "layouts/header" %>
+			<div class="clr"></div>
+		</div>
+		<div class="content-wrap">
+			<%= yield %>
+			<div class="clr"></div>
+		</div>
+		<div class="footer-wrap">
+			<%= render :partial => "layouts/footer" %>
+			<div class="clr"></div>
+		</div>
+	</div>
+</body>
+</html>

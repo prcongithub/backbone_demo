@@ -1,0 +1,9 @@
+<% if target && target.errors.any? %>
+  <div>
+     <ul>
+     <% target.errors.full_message_per_field.uniq.each do |msg| %>
+     		<li><%= msg %></li>
+     <% end %>
+     </ul>
+  </div>
+<% end %>

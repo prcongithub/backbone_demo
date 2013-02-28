@@ -1,0 +1,364 @@
+// Numeric only control handler
+jQuery.fn.ForceNumericOnly =
+function(length)
+{
+		if(typeof(length) === "undefined"){
+			length = 10000;
+		}
+		return this.each(function()
+    {
+        $(this).keydown(function(e)
+        {
+        	  var key = e.charCode || e.keyCode || 0;
+            // allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+            action_key_valid = (
+            		key == 8 || 
+                key == 9 ||
+                key == 46 ||
+                (key >= 37 && key <= 40)
+        		);
+            key_valid =  (
+            		key == 189 ||
+                key == 190 ||
+                (key >= 48 && key <= 57) ||
+                (key >= 96 && key <= 105)
+            );
+
+            if($(this).val().length == length && !action_key_valid){
+        			return false;
+      			}else{
+      				return (key_valid || action_key_valid);
+      			}	
+        });
+    });
+};
+
+// Numeric only control handler
+jQuery.fn.ForceIntegerOnly =
+function(length)
+{
+		if(typeof(length) === "undefined"){
+			length = 10000;
+		}
+    return this.each(function()
+    {
+        $(this).keydown(function(e)
+        {
+        	  var key = e.charCode || e.keyCode || 0;
+            // allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+            action_key_valid = (
+            		key == 8 || 
+                key == 9 ||
+                key == 46 ||
+                (key >= 37 && key <= 40)
+        		);
+            key_valid = (
+                (key >= 48 && key <= 57) ||
+                (key >= 96 && key <= 105)
+            );
+
+            if($(this).val().length == length && !action_key_valid){
+        			return false;
+      			}else{
+      				return (key_valid || action_key_valid);
+      			}		
+        });
+    });
+};
+
+// Numeric only control handler
+jQuery.fn.ForceAlphaNumericOnly =
+function(length)
+{
+		if(typeof(length) === "undefined"){
+			length = 10000;
+		}
+    return this.each(function()
+    {
+        $(this).keydown(function(e)
+        {
+            var key = e.charCode || e.keyCode || 0;
+            // allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+            action_key_valid = (
+            		key == 8 || 
+                key == 9 ||
+                key == 46 ||
+                (key >= 37 && key <= 40)
+        		);
+                
+						key_valid = (
+								key == 189 ||	
+                (key >= 65 && key <= 90) ||
+                (key >= 48 && key <= 57) ||
+                (key >= 96 && key <= 105)
+            );
+
+						if($(this).val().length == length && !action_key_valid){
+        			return false;
+      			}else{
+      				return (key_valid || action_key_valid);
+      			}		
+        });
+    });
+};
+
+// Numeric only control handler
+jQuery.fn.ForceTextOnly =
+function()
+{
+    return this.each(function()
+    {
+        $(this).keydown(function(e)
+        {
+            var key = e.charCode || e.keyCode || 0;
+            // allow backspace, tab, delete, arrows, numbers and keypad numbers ONLY
+            return (key >= 65 && key <= 90);
+        });
+    });
+};
+
+(function($){
+        
+        $.fn.placeholder = function() {
+                
+                if($(this).attr("type") == "password") {
+                
+                        var original_pass_field = $(this);
+                        var pass_placeholder_name = "pass_placeholder_" + $(this).attr("name");
+                        var pass_placeholder_id = "pass_placeholder_" + $(this).attr("id");
+                        if(original_pass_field.val() == "") {
+                                $(this).parent().append("<input type=\"text\" style=\"color:#777777;\" value=\""+ $(this).attr("placeholder") +"\" name=\""+pass_placeholder_name+"\" class=\"form-text\" id=\""+pass_placeholder_id+"\">");
+                                $(this).css("display","none");
+                        }
+
+
+                        $("#"+pass_placeholder_id+"").focus(function() {
+                                var holder_id = $(this).attr("id").replace("pass_placeholder_","");
+                                var holder = $("#" + holder_id);
+                                if(holder.val() == "") {
+                                        $(this).css("display","none");
+                                        original_pass_field.css("display","");
+                                        original_pass_field.focus();
+                                }
+                        });
+
+                        $(this).blur(function() {
+                            var original_pass_field = "pass_placeholder_" + $(this).attr("id");
+                            var original_pass_field = $("#" + original_pass_field);
+                          if(original_pass_field.val() == "") {
+                                        $(this).css("display","block");
+                                        original_pass_field.css("display","none");
+                                }
+                        });
+
+                } else {
+
+                        if($(this).val() === "") {
+                                $(this).val($(this).attr("placeholder"));
+                                $(this).css("color","#777777");
+                        }
+
+                        $(this).focus(function() {
+                                if($(this).val() === $(this).attr("placeholder")) {
+                                        $(this).css("color","#000000");
+                                        $(this).val("");
+                                }
+                        }).blur(function() {
+                                if($(this).val() === "") {
+                                        $(this).css("color","#777777");
+                                        $(this).val($(this).attr("placeholder"));
+                                }
+                        });
+                }
+
+        } 
+        
+})(jQuery);
+
+
+function after_email_validated(result){
+	if(result.success){
+		alert("Email already taken!");
+	}else{
+		alert("Email available!");
+	}
+}
+
+function after_email_validated_error(result){
+	alert("Could not validate email!");
+}
+
+function jsonRequest(url,dataHash,success_callback_function,failure_callback_function){
+	jQuery.ajax(url, {
+			type: 'POST',
+			data: dataHash,
+			dataType: 'json',
+			success: function(response) { 
+				success_callback_function(response);
+			},
+			error: function(response) { 
+				failure_callback_function(response);
+			}
+	});	
+}
+
+function jsRequest(url,dataHash,type){
+	if(type == undefined || type== null || type==''){
+		type = 'POST';
+	}
+	jQuery.ajax(url, {
+			type: type,
+			dataType: 'script',
+			data: dataHash
+	});	
+}
+
+
+function checkEmail(url,success_callback_function,failure_callback_function){
+	jQuery.ajax(url, {
+			type: 'POST',
+			data: {},
+			dataType: 'json',
+			success: function(response) { 
+				success_callback_function(response);
+			},
+			error: function(response) { 
+				failure_callback_function(response);
+			}
+	});
+}
+
+function validateEmail(email) { 
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		//var re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+		return re.test(email);
+} 
+		
+function add_autocomplete_event_for_input(url,input,callback_function,multiple){
+	multiple = typeof multiple !== 'undefined' ? multiple : false;
+	options = {
+		minLength: 0,
+		source: url,
+		select: function(event,ui) {
+			callback_function(ui.item);
+		},
+		close: function(event, ui){
+			if(multiple){
+				$("#"+input).val("");
+			}
+			if($("#"+input).next().is('img')){
+				//$("#"+input).next().remove();
+			}
+		},
+		change: function(event, ui){
+			if($("#"+input).next().is('img')){
+				//$("#"+input).next().remove();
+			}
+		},
+		search: function(event,ui){
+			if($("#"+input).next().is('img')){
+				
+			}else{
+				//$("#"+input).after("<img src='"+"<%= asset_path('fb_loader_small.gif') %>"+"'>");
+			}
+		}
+	};
+	$("#"+input).autocomplete(options);
+	$("#"+input).click(function(){
+		$(this).autocomplete("search", "");
+	});
+}
+
+function removeByElement(arrayName,arrayElement)
+{
+	for(var i=0; i<arrayName.length;i++ )
+	{ 
+		if(arrayName[i]==arrayElement)
+			arrayName.splice(i,1); 
+	} 
+}
+
+function joinArray(arrayName,joinWith)
+{
+	var str = "";
+	for(var i=0; i<arrayName.length;i++ )
+	{ 
+		if(i == (arrayName.length - 1)){
+			str = str + arrayName[i];
+		}else{
+			str = str + arrayName[i] + joinWith;
+		}
+	} 
+	return str;
+}
+
+function getKeys(obj){
+	var keys = new Array();
+	for(var key in obj)
+	{
+		  keys.push(key);
+	}
+	return keys;
+}
+
+function getValues(obj){
+	var values = new Array();
+	for(var key in obj)
+	{
+		  values.push(obj[key]);
+	}
+	return values;
+}
+
+function unload_page(){
+	
+}
+
+function printElem(elem,width,height)
+{
+	if(typeof(width) == 'undefined'){
+		width = 600;
+	}
+	if(typeof(height) == 'undefined'){
+		height = 400;
+	}
+	Popup($(elem).html(),width,height);
+}
+
+function Popup(data) 
+{
+	var mywindow = window.open('', 'my div', 'height=400,width=600');
+	mywindow.document.write('<html><head><title>my div</title>');
+	/*optional stylesheet*/ 
+	mywindow.document.write('<link rel="stylesheet" href="/assets/application.css" type="text/css" />');
+	mywindow.document.write('</head><body >');
+	mywindow.document.write(data);
+	mywindow.document.write('</body></html>');
+	mywindow.document.close();
+	mywindow.print();
+	return true;
+}
+
+
+function add_ajax_loader_event(element_to_bind,element_to_show,element_to_hide){
+	jQuery("#"+element_to_bind)
+		.bind("ajax:beforeSend",  function(evt, xhr, settings){
+			jQuery("#"+element_to_show).show();
+			jQuery("#"+element_to_hide).hide();
+		});
+}
+
+function get_root(){
+	var root = location.protocol+"//"+location.host;
+	return root;
+}
+
+function showNotice(notice){
+	if(notice != null && notice != ""){
+		jQuery("#notice").html(notice);
+		jQuery("#notice_div").slideToggle();
+			setTimeout(function(){
+				jQuery("#notice_div").slideToggle();
+		},10000);
+	}
+}
